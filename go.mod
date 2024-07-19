@@ -1,4 +1,4 @@
-module github.com/zhikh23/pg-utils
+module github.com/zhikh23/pgutils
 
 go 1.22.5
 
