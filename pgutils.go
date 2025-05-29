@@ -76,7 +76,7 @@ var ErrNoAffectedRows = errors.New("no affected rows")
 // RequireAffected checks the result of the Exec function for the presence of at least an affected table row.
 // Returns ErrNoAffectedRows.
 //
-//	err := RequireAffected(pgutils.Exec(ctx, db, `INSERT ...`))
+//	err := pgutils.RequireAffected(pgutils.Exec(ctx, db, `INSERT ...`))
 func RequireAffected(res sql.Result, err error) error {
 	if err != nil {
 		return err

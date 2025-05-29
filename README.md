@@ -63,3 +63,13 @@ pgutils.RunTx(ctx, db,  func(tx *sqlx.Tx) error {
     }
 })
 ```
+
+`RequireAffected` оборачивает результат функции `Exec`, возвращая либо ошибку `Exec` или `ErrNoAffectedRows`, 
+если запрос не воздействовал ни на одну строку таблицы.
+
+```go
+err := pgutils.RequireAffected(pgutils.Exec(ctx, db, `INSERT users (id, name) VALUES ($1, $2)`, 1, "John"));
+if err != nil {
+    ...
+}
+```
