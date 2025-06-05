@@ -23,6 +23,16 @@ func Exec(ctx context.Context, db sqlx.ExecerContext, query string, args ...inte
 	return res, nil
 }
 
+// NamedExec does not returns result from query.
+func NamedExec(ctx context.Context, ec sqlx.ExtContext, query string, arg interface{}) (sql.Result, error) {
+	res, err := sqlx.NamedExecContext(ctx, ec, query, arg)
+	if err != nil {
+		return res, sqlErr(err, query, arg)
+	}
+
+	return res, nil
+}
+
 // Get returns no more than one result from query.
 func Get(ctx context.Context, db sqlx.QueryerContext, dest interface{}, query string, args ...interface{}) error {
 	if err := sqlx.GetContext(ctx, db, dest, query, args...); err != nil {

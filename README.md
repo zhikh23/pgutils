@@ -20,6 +20,19 @@ if err != nil {
 }
 ```
 
+`NamedExec` аналогичен `Exec`, но принимает единственный аргумент - структуру или массив структур,
+а позиционные параметры заменяются на именованные.
+
+```go
+type row struct {
+    Id   int64  `db:"id"`
+    Name string `db:"name"`
+}
+
+r := row{1, "John"}
+err := pgutils.Exec(ctx, db, `INSERT INTO users (id, name) VALUES (:id, :name)`)
+```
+
 `Get` предназначен для запросов, которые могут вернуть не более одного результата.
 Например, `SELECT` по первичному ключу.
 
