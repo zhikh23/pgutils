@@ -15,9 +15,6 @@ go get -u github.com/zhikh23/pgutils
 
 ```go
 err := pgutils.Exec(ctx, db, `INSERT INTO users (id, name) VALUES ($1, $2)`, 1, "John")
-if err != nil {
-    ...
-}
 ```
 
 `NamedExec` аналогичен `Exec`, но принимает единственный аргумент - структуру или массив структур,
@@ -53,9 +50,6 @@ if err != nil {
 ```go
 var names []string
 err := pgutils.Select(ctx, db, &names, `SELECT name FROM users`)
-if err != nil {
-    ...
-}
 ```
 
 `RunTx` оборачивает функцию в транзакцию.
@@ -82,7 +76,16 @@ pgutils.RunTx(ctx, db,  func(tx *sqlx.Tx) error {
 
 ```go
 err := pgutils.RequireAffected(pgutils.Exec(ctx, db, `INSERT users (id, name) VALUES ($1, $2)`, 1, "John"));
-if err != nil {
+```
+
+`IsUn\iqueViolationError` возвращает `true`, если ошибка, возвращённая `Exec` или `NamedExec` возникла из-за нарушения
+ограничения `UNIQUE` или `PRIMARY KEY`.
+
+```go
+err := pgutils.Exec(ctx, db, `INSERT ...`)
+if pgutils.IsUniqueViolationError(err) {
+    return ErrAlreadyExists
+} else {
     ...
 }
 ```
